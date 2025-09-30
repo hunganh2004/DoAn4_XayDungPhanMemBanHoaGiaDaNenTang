@@ -1,0 +1,5 @@
+
+{
+    "PORT":9604,
+    "JWT_SECRET":"This is my key"
+}

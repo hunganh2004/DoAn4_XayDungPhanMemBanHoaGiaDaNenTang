@@ -1,0 +1,15 @@
+# Global
+node_modules/
+.env
+*.log
+
+# Expo
+.expo/
+.expo-shared/
+
+# React Native
+android/
+ios/
+
+# React Web
+build/

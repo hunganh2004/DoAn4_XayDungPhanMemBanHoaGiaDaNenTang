@@ -1,0 +1,9 @@
+# Tự động xử lý dòng theo hệ điều hành
+* text=auto
+
+# Force LF cho JS/TS để tránh lỗi khi làm việc đa nền tảng
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
