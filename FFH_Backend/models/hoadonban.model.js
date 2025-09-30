@@ -1,10 +1,12 @@
 
 class Hoadonban {
-	constructor(id, ma_nguoi_dung, ngay_ban, tong_tien, create_at, update_at) {
+	constructor(id, ma_nguoi_dung, ngay_ban, tong_tien, ghi_chu, trang_thai, create_at, update_at) {
 		this.id = id
 		this.ma_nguoi_dung = ma_nguoi_dung
 		this.ngay_ban = ngay_ban
 		this.tong_tien = tong_tien
+        this.ghi_chu = ghi_chu
+        this.trang_thai = trang_thai
 		this.create_at = create_at.toLocaleString('vi-VN')
 		this.update_at = update_at.toLocaleString('vi-VN')
     }

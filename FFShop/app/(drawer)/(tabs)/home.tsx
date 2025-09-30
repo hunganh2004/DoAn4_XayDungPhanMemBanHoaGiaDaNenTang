@@ -4,6 +4,7 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Footer from '@/components/footer';
+import formatCurrencyVND from '@/utils/formatCurrencyVND';
 
 
 export default function HomeScreen() {
@@ -135,15 +136,7 @@ export default function HomeScreen() {
           <View key={product.id} style={styles.card}>
             <Image source={{ uri: host + product.anh_san_pham || 'https://placehold.co/150x150?text=Hoa+giả' }} style={styles.image} />
             <Text style={styles.flowerName}>{product.ten_san_pham}</Text>
-            <Text style={styles.price}>{product.gia_san_pham.toLocaleString('vi_VN')}đ</Text>
-            {/* <Link 
-            key={product.id}
-            href={{
-              pathname: '/product-detail/[id]',
-              params: { id: product.id.toString() }
-            }}
-            asChild>
-            </Link> */}
+            <Text style={styles.price}>{formatCurrencyVND(product.gia_san_pham)}</Text>
             
               <TouchableOpacity 
                 style={styles.button}

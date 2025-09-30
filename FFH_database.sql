@@ -10,6 +10,9 @@ ten_nguoi_dung varchar(200),
 email_nguoi_dung varchar(200),
 mat_khau_nguoi_dung varchar(200),
 vai_tro varchar(200),
+sdt_nguoi_dung varchar(200),
+dia_chi_nguoi_dung varchar(200),
+anh_nguoi_dung varchar(200),
 token text,
 create_at timestamp default current_timestamp,
 update_at timestamp default current_timestamp
@@ -74,6 +77,8 @@ id int primary key auto_increment,
 ma_nguoi_dung int,
 ngay_ban datetime,
 tong_tien float,
+ghi_chu varchar(1000),
+trang_thai varchar(200),
 create_at timestamp default current_timestamp,
 update_at timestamp default current_timestamp on update current_timestamp,
 foreign key (ma_nguoi_dung) references nguoi_dung(id) on delete set null on update cascade
@@ -182,7 +187,7 @@ set anh_loai_san_pham = '/uploads/image-1757985192206.jpg'
 where id < 11;
 
 update nguoi_dung
-set token = 'my_token'
+set token = 'my_token', dia_chi_nguoi_dung = 'thôn Đại Đồng, xã Đại Đồng, tỉnh Hưng Yên', sdt_nguoi_dung ='0865713676', anh_nguoi_dung='/uploads/image-1757748160166.jpg'
 where id = '1';
 
 SELECT * FROM nguoi_dung WHERE email_nguoi_dung = 'admin' AND mat_khau_nguoi_dung = '1';

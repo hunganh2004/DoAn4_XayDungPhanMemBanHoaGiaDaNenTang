@@ -16,6 +16,8 @@ export default function RootLayout() {
             <Stack.Screen name="product-detail/[id]" options={{ title: "Chi tiết sản phẩm" }} />
             {/* Màn danh sách sản phẩm */}
             <Stack.Screen name="product-list/[id]" options={{title: 'Danh sách sản phẩm'}} />
+            {/* Màn hình edit profile */}
+            <Stack.Screen name="edit-profile" options={{title: 'Chỉnh sửa thông tin cá nhân'}} />
             {/* Drawer là màn chính */}
             <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
             {/* Màn thanh toán */}

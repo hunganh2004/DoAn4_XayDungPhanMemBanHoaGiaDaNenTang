@@ -1,5 +1,5 @@
 
-// export const host = 'http://192.168.137.1:9604'
+// export const host = 'http://192.168.42.151:9604'
 export const host = 'http://localhost:9604'
 
 

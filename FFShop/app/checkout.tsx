@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
+import { useRouter, Redirect } from 'expo-router';
+import { useUser } from '@/context/UserContext';
 
 const CheckoutScreen = () => {
     const router = useRouter();
+    const { user } = useUser();
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
@@ -21,6 +23,19 @@ const CheckoutScreen = () => {
         setNote('');
         router.push('/success');
     };
+
+    useEffect(() => {
+        if (user) {
+            setName(user.ten_nguoi_dung)
+            setAddress(user.dia_chi_nguoi_dung)
+            setPhone(user.sdt_nguoi_dung)
+            setNote('')
+        }
+    },[user])
+
+    if (!user) {
+        return <Redirect href='/login' />
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -53,6 +68,9 @@ const CheckoutScreen = () => {
                 placeholder="Ghi chú cho cửa hàng"
                 value={note}
                 onChangeText={setNote}
+                multiline
+                numberOfLines={5}
+                maxLength={1000}
             />
             <TouchableOpacity style={styles.button} onPress={handleOrder}>
                 <Text style={styles.buttonText}>Đặt hàng</Text>

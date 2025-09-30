@@ -54,11 +54,11 @@ class NguoidungService {
         this.db.delete(this.tablename,id,callback)
     }
     getSearch(searchValue ,callback) {
-        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung', 'vai_tro', 'token', 'create_at', 'update_at']
+        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung', 'vai_tro', 'sdt_nguoi_dung', 'dia_chi_nguoi_dung', 'anh_nguoi_dung', 'token', 'create_at', 'update_at']
         this.db.getSearch(this.tablename, searchValue,fields, this.converToNguoidung, callback)
     }
      getPaginationSearch(searchValue, pageSize, pageNumber, callback) {
-        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung', 'vai_tro', 'token', 'create_at', 'update_at']
+        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung','sdt_nguoi_dung', 'dia_chi_nguoi_dung', 'anh_nguoi_dung', 'vai_tro', 'token', 'create_at', 'update_at']
         this.db.getPaginationSearch(this.tablename, searchValue, fields, pageSize, pageNumber, this.converToNguoidung, callback)
     }
      getPagination(pageSize, pageNumber, callback) {

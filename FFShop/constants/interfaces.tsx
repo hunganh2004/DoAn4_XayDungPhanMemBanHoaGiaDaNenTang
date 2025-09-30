@@ -25,6 +25,9 @@ export interface User {
     ten_nguoi_dung: string;
     email_nguoi_dung: string;
     vai_tro: string;
+    sdt_nguoi_dung: string;
+    dia_chi_nguoi_dung: string;
+    anh_nguoi_dung: string;
     token: string;
     create_at: string; 
     update_at: string;
@@ -36,6 +39,8 @@ export interface SalesInvoice {
     ma_nguoi_dung: number,
     ngay_ban: string,
     tong_tien: number,
+    ghi_chu: number,
+    trang_thai: string,
     create_at: string,
     update_at: string
 }

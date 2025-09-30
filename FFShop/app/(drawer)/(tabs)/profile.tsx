@@ -2,10 +2,11 @@ import { useUser } from '@/context/UserContext';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { host } from '@/constants/vars';
 
 const ProfileScreen = () => {
     const router = useRouter();
-    const { user, setUser, logout} = useUser()
+    const { user, logout} = useUser()
 
     if (!user) {
         return(
@@ -32,7 +33,7 @@ const ProfileScreen = () => {
     return (
         <View style={styles.container}>
             <Image
-                source={{ uri: 'https://i.pravatar.cc/150?img=3' }}
+                source={{ uri: host +  user?.anh_nguoi_dung  }}
                 style={styles.avatar}
             />
             <Text style={styles.name}>{user?.ten_nguoi_dung}</Text>
@@ -40,11 +41,15 @@ const ProfileScreen = () => {
 
             <View style={styles.infoSection}>
                 <Text style={styles.label}>Số điện thoại:</Text>
-                <Text style={styles.value}>0123 456 789</Text>
+                <Text style={styles.value}>{user?.sdt_nguoi_dung}</Text>
             </View>
             <View style={styles.infoSection}>
                 <Text style={styles.label}>Địa chỉ:</Text>
-                <Text style={styles.value}>123 Đường ABC, Quận 1, TP.HCM</Text>
+                <Text style={styles.value}>{user?.dia_chi_nguoi_dung}</Text>
+            </View>
+            <View style={styles.infoSection}>
+                <Text style={styles.label}>Vai trò:</Text>
+                <Text style={styles.value}>{user?.vai_tro}</Text>
             </View>
 
             <TouchableOpacity style={styles.button}

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CartItem } from '@/constants/interfaces';
 import { host } from '@/constants/vars';
+import formatCurrencyVND from '@/utils/formatCurrencyVND';
 
 
 
@@ -22,15 +23,45 @@ const CartScreen = () => {
         setCart(cartData)
     }
 
+    const updateQuantity = async (id: number, newQuantity: number) => {
+        if (newQuantity < 1) return
+
+        const updateCart = cart.map((item) => (
+            item.id === id ? { ...item, so_luong_mua: newQuantity }: item
+        ))
+
+        setCart(updateCart)
+        await AsyncStorage.setItem('cart', JSON.stringify(updateCart))
+    }
+
+    const removeItem = async (id: number) => {
+        const updateCart = cart.filter(item => item.id !== id)
+        setCart(updateCart)
+        await AsyncStorage.setItem('cart', JSON.stringify(updateCart))
+    }
+
     const renderItem = ({ item }: {item: CartItem}) => (
         <View style={styles.itemContainer}>
             <Image source={{ uri: host + item.anh_san_pham }} style={styles.image} />
             <View style={styles.info}>
                 <Text style={styles.name}>{item.ten_san_pham}</Text>
                 <Text>Số lượng: {item.so_luong_mua}</Text>
-                <Text>Giá: {item.gia_san_pham} đ</Text>
+                <Text>Giá: {formatCurrencyVND(item.gia_san_pham)} đ</Text>
+            </View>
+            <View style={styles.actions}>
+                <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua - 1)}>
+                    <Text style={styles.actionText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{item.so_luong_mua}</Text>
+                <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua + 1)}>
+                    <Text style={styles.actionText}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => removeItem(item.id)}>
+                    <Text style={styles.removeText}>🗑️</Text>
+                </TouchableOpacity>
             </View>
         </View>
+        
     );
 
     useEffect(() => {
@@ -59,7 +90,7 @@ const CartScreen = () => {
                 style={styles.list}
                 />
                 <View style={styles.footer}>
-                    <Text style={styles.total}>Tổng cộng: {total} đ</Text>
+                    <Text style={styles.total}>Tổng cộng: {formatCurrencyVND(total)}</Text>
                     <TouchableOpacity style={styles.button}>
                         <Text 
                         style={styles.buttonText}
@@ -105,4 +136,25 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+    actions: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 8,
+},
+actionText: {
+  fontSize: 20,
+  paddingHorizontal: 12,
+  color: '#8e44ad',
+},
+quantity: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  marginHorizontal: 8,
+},
+removeText: {
+  fontSize: 18,
+  color: '#e74c3c',
+  marginLeft: 16,
+},
+
 });
