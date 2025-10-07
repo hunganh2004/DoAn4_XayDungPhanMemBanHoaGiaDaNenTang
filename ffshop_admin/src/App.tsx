@@ -1,32 +1,145 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ConfigProvider } from "antd";
+import React, { useState } from 'react';
+import {
+    BulbOutlined,
+    ControlOutlined,
+    HomeOutlined,
+    LogoutOutlined,
+    MoonOutlined,
+    ProductOutlined,
+    ProfileOutlined,
+    SettingOutlined,
+} from '@ant-design/icons';
+import type { BreadcrumbProps, MenuProps } from 'antd';
+import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
+import {  Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
+import ProductManager from './pages/ProductManager';
+import { ConfigProvider } from 'antd';
 import viVN from "antd/locale/vi_VN";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
-import theme from "./theme/theme";
-import "./App.css";
 
-export default function App() {
-  return (
-    <ConfigProvider locale={viVN} theme={theme}>
-      <Router>
-        <div style={{ display: "flex", minHeight: "100vh" }}>
-          <Sidebar />
-          <div style={{ flex: 1 }}>
-            <Navbar />
-            <div style={{ padding: 24}}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/settings" element={<Settings />} />
-              </Routes>
-            </div>
-          </div>
-        </div>
-      </Router>
-    </ConfigProvider>
-  )
+const { Header, Content, Footer, Sider } = Layout;
+
+
+type MenuItem = Required<MenuProps>['items'][number];
+type BreadcrumbItem = Required<BreadcrumbProps>['items'][number]
+
+function getMenuItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+    } as MenuItem;
 }
+
+const getBreadcrumItems = (pathname: string): BreadcrumbItem[] => {
+    const map: Record<string, string> = {
+        '/admin/home': 'Trang chủ',
+        '/admin/product': 'Quản lý sản phẩm',
+        '/admin/profile': 'Hồ sơ cá nhân',
+        '/admin/system': 'Hệ thống',
+        '/admin/logout': 'Đăng xuất',
+    }
+
+    const title = map[pathname] || 'Trang chủ'
+    
+    return [{key: pathname, title}]
+}
+
+
+const menuItems: MenuItem[] = [
+    getMenuItem('Trang chủ', 'home', <HomeOutlined />),
+    getMenuItem('Quản lý sản phẩm', 'products', <ProductOutlined />),
+    getMenuItem('Cài đặt', 'sub1', <SettingOutlined />, [
+        getMenuItem('Hồ sơ cá nhân', 'profile', <ProfileOutlined />),
+        getMenuItem('Hệ thống', 'system', <ControlOutlined />),
+        getMenuItem('Đăng xuất', 'logout', <LogoutOutlined />),
+    ]),
+];
+
+interface AppProps {
+    isDark: boolean
+    toggleTheme: () => void
+}
+
+const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
+    const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate()
+    const location = useLocation()
+    const {
+        token: { colorBgContainer, borderRadiusLG, colorText },
+    } = theme.useToken();
+
+    return (
+        <ConfigProvider locale={viVN} theme={{algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm}}>
+
+        <Layout style={{ minHeight: '100vh' }}>
+            <Sider 
+            collapsible collapsed={collapsed} 
+            onCollapse={(value) => setCollapsed(value)}
+            theme={isDark? 'dark':'light'}
+            >
+                <Avatar 
+                    size={100}
+                    src="https://i.pravatar.cc/150?u=ffshop"
+                    style={{margin: '30px auto', display:'block'}}
+                    />
+                {!collapsed && <div style={{ textAlign: 'center', color: colorText,  margin: '20px auto' }}>
+                    Nguyễn Hùng Anh
+                    </div>}
+                <Menu theme={isDark? 'dark':'light'} defaultSelectedKeys={['1']} mode="inline" items={menuItems} 
+                    onClick={({key}) => navigate(`/admin/${key}`) }
+                />
+            </Sider>
+            <Layout>
+                <Header style={{ padding: 0, backgroundColor: colorBgContainer, paddingLeft: '10px' }} >
+                    <Button 
+                        type='primary'
+                        icon={isDark? <BulbOutlined />: <MoonOutlined />}
+                        onClick={() => toggleTheme()}
+                        style={{
+                            borderRadius: 24,
+                            padding: '0 16px',
+                            height: 40,
+                            backgroundColor: isDark ? '#6262e1' : '#ff3366',
+                            color: '#fff',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                            transition: 'all 0.3s ease',
+                        }}
+                        >
+                        {isDark? 'sáng' : 'tối'}
+                    </Button>
+                </Header>
+                <Content style={{ margin: '0 16px' }}>
+                    <Breadcrumb style={{ margin: '16px 0' }} items={getBreadcrumItems(location.pathname)} />
+                    <div
+                        style={{
+                        padding: 24,
+                        minHeight: 360,
+                        backgroundColor: colorBgContainer,
+                        borderRadius: borderRadiusLG
+                        }}
+                    >
+                        <Routes>
+                            <Route path="/admin/home" element={<Dashboard />} />
+                            <Route path='/admin/products' element={<ProductManager />} />
+                            <Route path='/*' element={<NotFound />} />
+                        </Routes>
+                    </div>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
+            </Layout>
+        </Layout>
+        </ConfigProvider>
+    );
+};
+
+export default App;

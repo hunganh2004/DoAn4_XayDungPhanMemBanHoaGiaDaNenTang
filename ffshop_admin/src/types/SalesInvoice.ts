@@ -3,6 +3,8 @@ export interface SalesInvoice {
     ma_nguoi_dung: number,
     ngay_ban: string,
     tong_tien: number,
-    create_at?: string,
+    ghi_chu: string,
+    trang_thai: string,
+    create_at: string,
     update_at: string,
 }

@@ -4,6 +4,6 @@ export interface ImportInvoiceDetail {
     ma_hoa_don_nhap: number,
     so_luong: number,
     gia_nhap: number,
-    create_at?: string,
+    create_at: string,
     update_at: string,
 }

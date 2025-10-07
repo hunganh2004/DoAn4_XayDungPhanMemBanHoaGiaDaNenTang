@@ -4,6 +4,6 @@ export interface SalesInvoiceDetail {
     ma_san_pham: number,
     so_luong: number,
     gia_ban: number,
-    create_at?: string,
+    create_at: string,
     update_at: string,
 }

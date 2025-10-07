@@ -1,6 +1,5 @@
 export const currencyFormat = (value: number): string => {
-    return value.toLocaleString('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    })
-}
+  const str = Math.round(value).toString(); // làm tròn và chuyển sang chuỗi
+  const formatted = str.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // thêm dấu chấm ngăn cách
+  return `${formatted} ₫`; // thêm đơn vị tiền
+};
