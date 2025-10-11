@@ -84,10 +84,11 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
             collapsible collapsed={collapsed} 
             onCollapse={(value) => setCollapsed(value)}
             theme={isDark? 'dark':'light'}
+            width={'280'}
             >
                 <Avatar 
-                    size={100}
-                    src="https://i.pravatar.cc/150?u=ffshop"
+                    size={collapsed? 40 :100}
+                    src="http://localhost:9604/uploads/image-1757748160166.jpg" 
                     style={{margin: '30px auto', display:'block'}}
                     />
                 {!collapsed && <div style={{ textAlign: 'center', color: colorText,  margin: '20px auto' }}>
@@ -113,7 +114,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                             transition: 'all 0.3s ease',
                         }}
                         >
-                        {isDark? 'sáng' : 'tối'}
+                        Đổi chế độ: {isDark? 'Sáng' : 'Tối'}
                     </Button>
                 </Header>
                 <Content style={{ margin: '0 16px' }}>
@@ -134,7 +135,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                FFShop ©{new Date().getFullYear()} Created by Nguyen Hung Anh
                 </Footer>
             </Layout>
         </Layout>

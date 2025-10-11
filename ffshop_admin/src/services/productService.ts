@@ -17,12 +17,12 @@ export const getProductById = async (productId: number) => {
 }
 
 export const createProduct = async (productData: Product) => {
-    const res = await api.post('/sanpham', productData)
+    const res = await api.post('/sanpham', [productData])
     return res.data
 }
 
 export const updateProduct = async (productData: Product) => {
-    const res = await api.put('/sanpham', productData)
+    const res = await api.put('/sanpham', [productData])
     return res.data
 }
 
