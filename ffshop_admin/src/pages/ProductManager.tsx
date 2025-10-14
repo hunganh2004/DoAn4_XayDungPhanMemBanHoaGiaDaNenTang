@@ -87,6 +87,7 @@ const ProductManager = () => {
             render: (anh_san_pham: string) => (
                 <Image 
                     width={64}
+                    height={64}
                     src={host + anh_san_pham}
                     alt='Ảnh sản phẩm'
                     style={{ borderRadius: 8 }}
@@ -168,6 +169,7 @@ const ProductManager = () => {
             setLoading(false)
             setIsModalOpen(false)
             form.resetFields()
+            setPreviewImage([]);
         }
     }
 
@@ -248,7 +250,7 @@ const ProductManager = () => {
             open={isModalOpen}
             onCancel={() => {
                 setIsModalOpen(false);
-                form.resetFields();
+                // form.resetFields();
                 setPreviewImage([]);
             }}
             onOk={handleSubmit}
@@ -326,7 +328,7 @@ const ProductManager = () => {
                 Thêm sản phẩm
             </Button>
             <Search
-                placeholder="Tìm kiếm theo tên sản phẩm"
+                placeholder="Hãy nhập gì đó ..."
                 allowClear
                 enterButton="Tìm kiếm"
                 size="middle"

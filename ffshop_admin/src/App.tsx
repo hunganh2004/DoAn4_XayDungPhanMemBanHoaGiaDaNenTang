@@ -8,6 +8,8 @@ import {
     ProductOutlined,
     ProfileOutlined,
     SettingOutlined,
+    TeamOutlined,
+    UnorderedListOutlined,
 } from '@ant-design/icons';
 import type { BreadcrumbProps, MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
@@ -15,6 +17,8 @@ import {  Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import ProductManager from './pages/ProductManager';
+import CategoryManager from './pages/CategoryManager';
+import UserManager from './pages/UserManager';
 import { ConfigProvider } from 'antd';
 import viVN from "antd/locale/vi_VN";
 
@@ -41,7 +45,9 @@ function getMenuItem(
 const getBreadcrumItems = (pathname: string): BreadcrumbItem[] => {
     const map: Record<string, string> = {
         '/admin/home': 'Trang chủ',
-        '/admin/product': 'Quản lý sản phẩm',
+        '/admin/categories': 'Quản sản phẩm / Danh mục sản phẩm',
+        '/admin/product-list': 'Quản lý sản phẩm / Danh sách sản phẩm',
+        '/admin/users': 'Quản lý người dùng',
         '/admin/profile': 'Hồ sơ cá nhân',
         '/admin/system': 'Hệ thống',
         '/admin/logout': 'Đăng xuất',
@@ -55,8 +61,12 @@ const getBreadcrumItems = (pathname: string): BreadcrumbItem[] => {
 
 const menuItems: MenuItem[] = [
     getMenuItem('Trang chủ', 'home', <HomeOutlined />),
-    getMenuItem('Quản lý sản phẩm', 'products', <ProductOutlined />),
-    getMenuItem('Cài đặt', 'sub1', <SettingOutlined />, [
+    getMenuItem('Quản lý sản phẩm', 'sub1', <ProductOutlined />, [
+        getMenuItem('Danh mục sản phẩm', 'categories', <UnorderedListOutlined />),
+        getMenuItem('Danh sách sản phẩm', 'product-list', <UnorderedListOutlined />),
+    ]),
+    getMenuItem('Quản lý người dùng', 'users', <TeamOutlined />),
+    getMenuItem('Cài đặt', 'sub2', <SettingOutlined />, [
         getMenuItem('Hồ sơ cá nhân', 'profile', <ProfileOutlined />),
         getMenuItem('Hệ thống', 'system', <ControlOutlined />),
         getMenuItem('Đăng xuất', 'logout', <LogoutOutlined />),
@@ -129,7 +139,9 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                     >
                         <Routes>
                             <Route path="/admin/home" element={<Dashboard />} />
-                            <Route path='/admin/products' element={<ProductManager />} />
+                            <Route path='/admin/product-list' element={<ProductManager />} />
+                            <Route path='/admin/categories' element={<CategoryManager />} />
+                            <Route path='/admin/users' element={<UserManager />} />
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </div>
