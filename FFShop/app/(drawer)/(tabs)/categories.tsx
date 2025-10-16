@@ -64,7 +64,9 @@ const CategoriesScreen = () => {
     );
 
     return (
-        <ScrollView>
+        <ScrollView
+            showsHorizontalScrollIndicator={false}
+        >
         <View style={styles.container}>
             <Text style={styles.title}>Danh mục sản phẩm</Text>
             <FlatList
@@ -75,6 +77,7 @@ const CategoriesScreen = () => {
                 columnWrapperStyle={styles.row}
                 contentContainerStyle={{ paddingBottom: 16 }}
                 showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
             />
         </View>
         <Footer />

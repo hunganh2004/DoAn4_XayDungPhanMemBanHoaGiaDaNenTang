@@ -47,7 +47,7 @@ const LoginScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>FFShop Login</Text>
+            <Text style={styles.title}>Đăng nhập FFShop</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -66,9 +66,17 @@ const LoginScreen = () => {
                 secureTextEntry
             />
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Log In</Text>
+                <Text style={styles.buttonText}>Đăng nhập</Text>
             </TouchableOpacity>
-            <Text style={styles.footer}>Welcome to the Fake Flower Shop!</Text>
+            <TouchableOpacity onPress={() => router.push('/register' as never)}>
+                <Text style={styles.link}>Chưa có tài khoản? Đăng ký ngay</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => router.push('/forgot-password' as never)}>
+                <Text style={styles.link}>Quên mật khẩu?</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.footer}>Chào mừng đến với FFShop !</Text>
         </View>
     );
 };
@@ -117,6 +125,12 @@ const styles = StyleSheet.create({
         color: '#6d6875',
         fontSize: 16,
     },
+    link: {
+        color: '#b56576',
+        fontSize: 16,
+        textDecorationLine: 'underline',
+        marginBottom: 8,
+    }
 });
 
 export default LoginScreen;

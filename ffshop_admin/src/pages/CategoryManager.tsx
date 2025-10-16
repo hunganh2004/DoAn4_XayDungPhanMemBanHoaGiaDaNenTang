@@ -174,6 +174,7 @@ const CategoryManager = () => {
     }
 
     const filterData = categories.filter((item: Category) => (
+        item.id.toString().includes(searchKeyWord) ||
         item.ten_loai_san_pham.toLocaleLowerCase().includes(searchKeyWord.toLocaleLowerCase())
     ))
     

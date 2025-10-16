@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, Switch } from 'antd';
 
-const Settings: React.FC = () => {
+const System: React.FC = () => {
     return (
         <Card title="Cài đặt">
             <Form
@@ -32,4 +32,4 @@ const Settings: React.FC = () => {
     );
 };
 
-export default Settings;
+export default System;

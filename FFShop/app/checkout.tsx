@@ -2,26 +2,116 @@ import React, { useEffect, useState } from 'react';
 import { Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { useRouter, Redirect } from 'expo-router';
 import { useUser } from '@/context/UserContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api_don_hang_create, api_chi_tiet_don_hang_create } from '@/constants/vars';
+import { CartItem, SalesInvoice, SalesInvoiceDetail } from '@/constants/interfaces';
+import { formatDate } from '@/utils/formatDate';
 
 const CheckoutScreen = () => {
     const router = useRouter();
     const { user } = useUser();
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [phone, setPhone] = useState('');
-    const [note, setNote] = useState('');
+    const [name, setName] = useState<string>('');
+    const [address, setAddress] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+    const [note, setNote] = useState<string>('');
 
-    const handleOrder = () => {
+    const getUserId = () => {
+        if (user) {
+            return user.id;
+        }
+        else throw new Error('User not logged in');
+    }
+
+    const totalAmount = async () => {
+        const cartJson = await AsyncStorage.getItem('cart');
+        const cartData = cartJson ? JSON.parse(cartJson) : [];
+        return cartData.reduce((total: number, item: CartItem) => {
+            return total + item.gia_san_pham * item.so_luong_mua;
+        }, 0);
+    };
+
+    const getDetails = async (hoaDonId: number) => {
+        const cartJson = await AsyncStorage.getItem('cart');
+        const cartData = cartJson ? JSON.parse(cartJson) : [];
+        return cartData.map((item: CartItem) => {
+            return {
+                id: 0, // ID sẽ được tạo bởi server
+                ma_san_pham: item.id,
+                ma_hoa_don_ban: hoaDonId, 
+                so_luong: item.so_luong_mua,
+                gia_ban: item.gia_san_pham,
+                create_at: formatDate(new Date()),
+                update_at: formatDate(new Date()),
+            } as SalesInvoiceDetail;
+        });
+    };
+
+    const createOrder = async () => {
+        const total = await totalAmount();
+        const order: SalesInvoice = {
+            id: 0, // ID sẽ được tạo bởi server
+            ma_nguoi_dung: getUserId(),
+            ngay_ban: formatDate(new Date()),
+            tong_tien: total,
+            trang_thai: 'Chưa thanh toán',
+            create_at: formatDate(new Date()),
+            update_at: formatDate(new Date()),
+            ghi_chu: note,
+        };
+
+        console.log('Order to send:', order); // Debug log
+        const res = await fetch(api_don_hang_create, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([order]),
+        });   
+        return res.json();
+    };
+
+    const createOrderDetail = async (orderId: number) => {
+
+        const details = await getDetails(orderId);
+        console.log('Details to send:', details); // Debug log
+
+        for (const item of details) {
+            const res = await fetch(api_chi_tiet_don_hang_create, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify([item]),
+            });
+            if (!res.ok) {
+                console.error('Error creating order detail:', res.statusText);
+            }
+        }
+    };
+
+    const handleOrder = async () => {
         if (!name || !address || !phone) {
             Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin.');
             return;
         }
+
+        try {
+            const orderRes = await createOrder();
+            console.log('Order response:', orderRes); // Debug log
+            const orderId = orderRes.id;
+            await createOrderDetail(orderId);
+        } catch (error) {
+            console.error('Error creating order:', error);
+            return;
+        }
+
+        await AsyncStorage.removeItem('cart')
         Alert.alert('Thành công', 'Đơn hàng của bạn đã được đặt!');
         setName('');
         setAddress('');
         setPhone('');
         setNote('');
-        router.push('/success');
+        router.replace('/success');
     };
 
     useEffect(() => {
@@ -34,7 +124,11 @@ const CheckoutScreen = () => {
     },[user])
 
     if (!user) {
-        return <Redirect href='/login' />
+        return <Redirect href='/login?redirectTo=/checkout' />
+    }
+
+    if (!user.ten_nguoi_dung || !user.dia_chi_nguoi_dung || !user.sdt_nguoi_dung) {
+        return <Redirect href='/edit-profile?redirectTo=/checkout' />
     }
 
     return (

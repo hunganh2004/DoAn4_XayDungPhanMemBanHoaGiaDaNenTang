@@ -44,21 +44,24 @@ const CartScreen = () => {
         <View style={styles.itemContainer}>
             <Image source={{ uri: host + item.anh_san_pham }} style={styles.image} />
             <View style={styles.info}>
-                <Text style={styles.name}>{item.ten_san_pham}</Text>
-                <Text>Số lượng: {item.so_luong_mua}</Text>
-                <Text>Giá: {formatCurrencyVND(item.gia_san_pham)} đ</Text>
-            </View>
-            <View style={styles.actions}>
-                <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua - 1)}>
-                    <Text style={styles.actionText}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{item.so_luong_mua}</Text>
-                <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua + 1)}>
-                    <Text style={styles.actionText}>+</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => removeItem(item.id)}>
-                    <Text style={styles.removeText}>🗑️</Text>
-                </TouchableOpacity>
+                <View style = {{ flexDirection : "row" , justifyContent:"space-between"}}>
+                    <View>
+                        <Text style={styles.name}>{item.ten_san_pham}</Text>
+                        <Text>Giá: {formatCurrencyVND(item.gia_san_pham)} đ</Text>
+                    </View>
+                    <TouchableOpacity onPress={() => removeItem(item.id)}>
+                        <Text style={styles.removeText}>🗑️</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.actions}>
+                    <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua - 1)}>
+                        <Text style={styles.actionText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.quantity}>SL: {item.so_luong_mua}</Text>
+                    <TouchableOpacity onPress={() => updateQuantity(item.id, item.so_luong_mua + 1)}>
+                        <Text style={styles.actionText}>+</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
         
@@ -91,10 +94,11 @@ const CartScreen = () => {
                 />
                 <View style={styles.footer}>
                     <Text style={styles.total}>Tổng cộng: {formatCurrencyVND(total)}</Text>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button}
+                    onPress={() => router.push('/checkout')}>
                         <Text 
                         style={styles.buttonText}
-                        onPress={() => router.push('/checkout')}
+                        
                         >Thanh toán</Text>
                     </TouchableOpacity>
                 </View>
@@ -137,24 +141,24 @@ const styles = StyleSheet.create({
     },
     buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
     actions: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: 8,
-},
-actionText: {
-  fontSize: 20,
-  paddingHorizontal: 12,
-  color: '#8e44ad',
-},
-quantity: {
-  fontSize: 16,
-  fontWeight: 'bold',
-  marginHorizontal: 8,
-},
-removeText: {
-  fontSize: 18,
-  color: '#e74c3c',
-  marginLeft: 16,
-},
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+    },
+    actionText: {
+        fontSize: 20,
+        paddingHorizontal: 12,
+        color: '#8e44ad',
+    },
+        quantity: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginHorizontal: 8,
+    },
+        removeText: {
+        fontSize: 18,
+        color: '#e74c3c',
+        marginLeft: 16,
+    },
 
 });

@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { useUser } from '@/context/UserContext'
-import { useRouter } from 'expo-router'
-import { host } from '@/constants/vars'
+import { useRouter, useLocalSearchParams } from 'expo-router'
+import { api_update_nguoi_dung_by_id } from '@/constants/vars'
+import { User } from '@/constants/interfaces'
 
 const EditProfileScreen = () => {
     const { user, setUser } = useUser()
     const router = useRouter()
+    const { redirectTo } = useLocalSearchParams<{ redirectTo?: string }>()
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
-    const [address, setAddress] = useState('')
+    const [name, setName] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [phone, setPhone] = useState<string>('')
+    const [address, setAddress] = useState<string>('')
+    const [imageUrl, setImageUrl] = useState<string>('')
+
 
     useEffect(() => {
         if (user) {
@@ -19,30 +23,48 @@ const EditProfileScreen = () => {
         setEmail(user.email_nguoi_dung || '')
         setPhone(user.sdt_nguoi_dung || '')
         setAddress(user.dia_chi_nguoi_dung || '')
+        setImageUrl(user.anh_nguoi_dung || '')
         }
     }, [user])
 
     const handleSave = async () => {
-        // try {
-        // const response = await fetch(`${host}/nguoidung/update/${user.id_nguoi_dung}`, {
-        //     method: 'PUT',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //     ten_nguoi_dung: name,
-        //     email_nguoi_dung: email,
-        //     sdt_nguoi_dung: phone,
-        //     dia_chi_nguoi_dung: address,
-        //     }),
-        // })
+        try {
+            const userUpdate: User = {
+                id: Number(user?.id),
+                ten_nguoi_dung: name,
+                email_nguoi_dung: email,
+                vai_tro: user?.vai_tro || '',
+                sdt_nguoi_dung: phone,
+                dia_chi_nguoi_dung: address,
+                anh_nguoi_dung: imageUrl,
+                token: user?.token || '',
+                create_at: user?.create_at || '',
+                update_at: Date.now().toString(),
+                }
+            console.log(userUpdate)
 
-        // const updatedUser = await response.json()
-        // setUser(updatedUser)
-        // Alert.alert('Thành công', 'Thông tin đã được cập nhật')
-        // router.replace('/profile')
-        // } catch (err) {
-        // console.error('Lỗi cập nhật:', err)
-        // Alert.alert('Lỗi', 'Không thể cập nhật thông tin')
-        // }
+            await fetch(api_update_nguoi_dung_by_id(Number(user?.id)), {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: user?.id,
+                    anh_nguoi_dung: user?.anh_nguoi_dung,
+                    ten_nguoi_dung: name,
+                    email_nguoi_dung: email,
+                    sdt_nguoi_dung: phone,
+                    dia_chi_nguoi_dung: address,
+                    create_at: user?.create_at,
+                    update_at: Date.now()
+                }   ),
+            })
+
+            setUser(userUpdate)
+            Alert.alert('Thành công', 'Thông tin đã được cập nhật')
+            router.replace(redirectTo as never || '/profile')
+        } catch (err) {
+            console.error('Lỗi cập nhật:', err)
+            Alert.alert('Lỗi', 'Không thể cập nhật thông tin')
+        }
     }
 
     return (

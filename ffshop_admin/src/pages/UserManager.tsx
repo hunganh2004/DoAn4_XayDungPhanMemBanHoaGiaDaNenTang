@@ -196,10 +196,11 @@ const UserManager = () => {
     }
 
     const filterData = users.filter((item: User) => (
-        item.ten_nguoi_dung.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
-        item.email_nguoi_dung.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
-        item.sdt_nguoi_dung.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
-        item.dia_chi_nguoi_dung.toLowerCase().includes(searchKeyWord.toLowerCase()) 
+        item.id.toString().includes(searchKeyWord) ||
+        item.ten_nguoi_dung?.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
+        item.email_nguoi_dung?.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
+        item.sdt_nguoi_dung?.toLowerCase().includes(searchKeyWord.toLowerCase()) ||
+        item.dia_chi_nguoi_dung?.toLowerCase().includes(searchKeyWord.toLowerCase()) 
     ))
 
 

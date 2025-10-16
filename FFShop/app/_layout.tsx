@@ -11,7 +11,11 @@ export default function RootLayout() {
         <SafeAreaProvider>
           <Stack>
             {/* Màn hình đăng nhập */}
-            <Stack.Screen name="login" options={{ title: "Đăng nhập", headerTitleAlign: "center" }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            {/* Màn hình đăng ký */}
+            <Stack.Screen name="register" options={{ headerShown: false }} />
+            {/* Màn hình quên mật khẩu */}
+            <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
             {/* Màn chi tiết sản phẩm */}
             <Stack.Screen name="product-detail/[id]" options={{ title: "Chi tiết sản phẩm" }} />
             {/* Màn danh sách sản phẩm */}

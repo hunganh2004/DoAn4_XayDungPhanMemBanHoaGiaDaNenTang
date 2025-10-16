@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import {
     BulbOutlined,
     ControlOutlined,
+    ExportOutlined,
+    FileTextOutlined,
     HomeOutlined,
+    ImportOutlined,
     LogoutOutlined,
     MoonOutlined,
     ProductOutlined,
@@ -13,14 +16,18 @@ import {
 } from '@ant-design/icons';
 import type { BreadcrumbProps, MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
-import {  Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {  Routes, Route, useNavigate, useLocation, Navigate } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
+// import System from './pages/System';
 import NotFound from './pages/NotFound';
 import ProductManager from './pages/ProductManager';
 import CategoryManager from './pages/CategoryManager';
 import UserManager from './pages/UserManager';
+import ImportInvoiceManager from './pages/ImportInvoiceManager';
+import ExportInvoiceManager from './pages/ExportInvoiceManager';
 import { ConfigProvider } from 'antd';
 import viVN from "antd/locale/vi_VN";
+import '@ant-design/v5-patch-for-react-19';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -48,6 +55,8 @@ const getBreadcrumItems = (pathname: string): BreadcrumbItem[] => {
         '/admin/categories': 'Quản sản phẩm / Danh mục sản phẩm',
         '/admin/product-list': 'Quản lý sản phẩm / Danh sách sản phẩm',
         '/admin/users': 'Quản lý người dùng',
+        '/admin/import-invoice': 'Quản lý hóa đơn / Hóa đơn nhập',
+        '/admin/export-invoice': 'Quản lý hóa đơn / Hóa đơn bán',
         '/admin/profile': 'Hồ sơ cá nhân',
         '/admin/system': 'Hệ thống',
         '/admin/logout': 'Đăng xuất',
@@ -66,7 +75,11 @@ const menuItems: MenuItem[] = [
         getMenuItem('Danh sách sản phẩm', 'product-list', <UnorderedListOutlined />),
     ]),
     getMenuItem('Quản lý người dùng', 'users', <TeamOutlined />),
-    getMenuItem('Cài đặt', 'sub2', <SettingOutlined />, [
+    getMenuItem('Quản lý hóa đơn', 'sub2', <FileTextOutlined />, [
+        getMenuItem('Hóa đơn bán', 'export-invoice', <ExportOutlined />),
+        getMenuItem('Hóa đơn nhập', 'import-invoice', <ImportOutlined />),
+    ]),
+    getMenuItem('Cài đặt', 'sub3', <SettingOutlined />, [
         getMenuItem('Hồ sơ cá nhân', 'profile', <ProfileOutlined />),
         getMenuItem('Hệ thống', 'system', <ControlOutlined />),
         getMenuItem('Đăng xuất', 'logout', <LogoutOutlined />),
@@ -138,10 +151,16 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                         }}
                     >
                         <Routes>
+                            <Route path='/' element={<Navigate to="/admin/home" />} />
                             <Route path="/admin/home" element={<Dashboard />} />
                             <Route path='/admin/product-list' element={<ProductManager />} />
                             <Route path='/admin/categories' element={<CategoryManager />} />
                             <Route path='/admin/users' element={<UserManager />} />
+                            <Route path='/admin/import-invoice' element={<ImportInvoiceManager />} />
+                            <Route path='/admin/export-invoice' element={<ExportInvoiceManager />} />
+                            {/* <Route path='/admin/profile' element={<Profile />} /> */}
+                            {/* <Route path='/admin/system' element={<System />} /> */}
+                            {/* <Route path='/admin/logout' element={<Logout />} /> */}
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </div>

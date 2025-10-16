@@ -61,6 +61,15 @@ const ProfileScreen = () => {
                     
                 >Chỉnh sửa hồ sơ</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, {backgroundColor: '#388E3C'}]}
+            onPress={() => {
+                        // Xử lý xem đơn hàng đã đặt
+                        router.push('/order-history' as never);
+                    }}>
+                <Text style={styles.buttonText}
+                    
+                >Xem đơn hàng đã đặt</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.logoutButton]}
             onPress={() => {
                         logout()

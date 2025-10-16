@@ -236,6 +236,7 @@ const ProductManager = () => {
     }
 
     const filteredData = data.filter((item:Product) => (
+        item.id.toString().includes(searchKeyWord) ||
         item.ten_san_pham.toLocaleLowerCase().includes(searchKeyWord.toLocaleLowerCase())
         || item.mo_ta_san_pham.toLocaleLowerCase().includes(searchKeyWord.toLocaleLowerCase())
         || item.gia_san_pham.toString().includes(searchKeyWord)
@@ -352,19 +353,6 @@ const ProductManager = () => {
         </>
     )
 }
-/*
-export interface Product {
-    id: number,
-    ten_san_pham: string,
-    gia_san_pham: number,
-    anh_san_pham: string,
-    so_luong_ton: number,
-    ma_loai_san_pham: number,
-    ma_nha_cung_cap: number,
-    create_at: string,
-    update_at: string,
-}
-*/
 
 
 export default ProductManager
