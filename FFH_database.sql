@@ -39,7 +39,7 @@ update_at timestamp default current_timestamp on update current_timestamp
 create table san_pham(
 id int primary key auto_increment,
 ten_san_pham varchar(200),
-gia_san_pham varchar(200),
+gia_san_pham int,
 anh_san_pham varchar(200),
 mo_ta_san_pham varchar(500),
 so_luong_ton int default 0,
@@ -55,7 +55,7 @@ create table hoa_don_nhap(
 id int primary key auto_increment,
 ma_nha_cung_cap int,
 ngay_nhap datetime,
-tong_tien float,
+tong_tien int,
 create_at timestamp default current_timestamp,
 update_at timestamp default current_timestamp on update current_timestamp,
 foreign key (ma_nha_cung_cap) references nha_cung_cap(id) on delete set null on update cascade
@@ -76,9 +76,9 @@ create table hoa_don_ban(
 id int primary key auto_increment,
 ma_nguoi_dung int,
 ngay_ban datetime,
-tong_tien float,
+tong_tien int,
 ghi_chu varchar(1000),
-trang_thai varchar(200),
+trang_thai varchar(200), -- Chưa thanh toán, đã thanh toán, đang vận chuyển, đã hoàn thành, đã bị hủy
 create_at timestamp default current_timestamp,
 update_at timestamp default current_timestamp on update current_timestamp,
 foreign key (ma_nguoi_dung) references nguoi_dung(id) on delete set null on update cascade
@@ -102,7 +102,6 @@ VALUES
 ('Le Van C', 'c@example.com', '123456', 'user'),
 ('Pham Thi D', 'd@example.com', '123456', 'user'),
 ('Hoang Van E', 'e@example.com', '123456', 'admin');
-
 INSERT INTO loai_san_pham (ten_loai_san_pham, anh_loai_san_pham, url_loai_san_pham)
 VALUES 
 ('Hoa bó', 'hoa_trang_tri.jpg', 'hoa-trang-tri'),
@@ -191,3 +190,32 @@ set token = 'my_token', dia_chi_nguoi_dung = 'thôn Đại Đồng, xã Đại �
 where id = '1';
 
 SELECT * FROM nguoi_dung WHERE email_nguoi_dung = 'admin' AND mat_khau_nguoi_dung = '1';
+
+use reactnative_ff;
+-- INSERT INTO hoa_don_ban (
+--   ma_nguoi_dung,
+--   ngay_ban,
+--   tong_tien,
+--   ghi_chu,
+--   trang_thai
+-- ) VALUES (
+--   1,
+--   NOW(),
+--   150000,
+--   'Khách mua hoa tươi cho sinh nhật',
+--   'Chưa thanh toán'
+-- );
+-- INSERT INTO chi_tiet_hoa_don_ban (
+--   ma_san_pham,
+--   ma_hoa_don_ban,
+--   so_luong,
+--   gia_ban
+-- ) VALUES (
+--   1,
+--   6,
+--   2,
+--   75000
+-- );
+
+select * from hoa_don_ban;
+select * from chi_tiet_hoa_don_ban
