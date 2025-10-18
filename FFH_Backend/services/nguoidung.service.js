@@ -8,12 +8,16 @@ class NguoidungService {
         this.tablename = tablename
     }
     converToNguoidung(data) {
+        console.log('Converting to Nguoidung:', data)
         return data.map(i => new Nguoidung(
 			i.id,
 			i.ten_nguoi_dung,
 			i.email_nguoi_dung,
 			i.mat_khau_nguoi_dung,
 			i.vai_tro,
+            i.sdt_nguoi_dung,
+            i.dia_chi_nguoi_dung,
+            i.anh_nguoi_dung,
 			i.token,
 			i.create_at,
 			i.update_at,
@@ -35,6 +39,45 @@ class NguoidungService {
             const nguoidung = this.converToNguoidung(result)
             return callback(null, nguoidung)
         })
+    }
+    signup(ten_nguoi_dung,email, mat_khau, callback) {
+        const sql = `insert into ${this.tablename} 
+        (ten_nguoi_dung, email_nguoi_dung, mat_khau_nguoi_dung, anh_nguoi_dung) values (?, ?, ?, '/')`
+        this.db.execQuery(sql, '', '', [ten_nguoi_dung, email, mat_khau], (err, result) => {
+            
+            if (err) {
+                return callback(err)
+            }
+            return callback(result)
+        })
+    }
+    updatePassword(id, currentPass, newPass, callback) {
+        const sql = `update ${this.tablename} SET mat_khau_nguoi_dung = ? WHERE id = ? and mat_khau_nguoi_dung= ?`
+        this.db.execQuery(sql, '', '', [newPass, id, currentPass], (err, result) => {
+            if (err) {
+                return callback(err)
+            } else {
+                return callback(this.converToNguoidung(result))
+            }
+        })
+    }
+    updateInfo(id, obj, callback) {
+        const sql = `update ${this.tablename} 
+        SET ?
+        WHERE id = ?`
+        this.db.execQuery(sql, '', '', [obj, id], (err, result) => {
+            if (err) {
+                return callback(err)
+            } else {
+                return callback('Cập nhật thành công thông tin người dùng có id: ' + id)
+            }
+        })
+    }
+    updateToken() {
+
+    }
+    updateRole() {
+
     }
     getAll(callback) {
         this.db.getAll(this.tablename, this.converToNguoidung, callback)
@@ -58,7 +101,7 @@ class NguoidungService {
         this.db.getSearch(this.tablename, searchValue,fields, this.converToNguoidung, callback)
     }
      getPaginationSearch(searchValue, pageSize, pageNumber, callback) {
-        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung','sdt_nguoi_dung', 'dia_chi_nguoi_dung', 'anh_nguoi_dung', 'vai_tro', 'token', 'create_at', 'update_at']
+        const fields = ['id', 'ten_nguoi_dung', 'email_nguoi_dung', 'mat_khau_nguoi_dung', 'vai_tro','sdt_nguoi_dung', 'dia_chi_nguoi_dung', 'anh_nguoi_dung', 'token', 'create_at', 'update_at']
         this.db.getPaginationSearch(this.tablename, searchValue, fields, pageSize, pageNumber, this.converToNguoidung, callback)
     }
      getPagination(pageSize, pageNumber, callback) {

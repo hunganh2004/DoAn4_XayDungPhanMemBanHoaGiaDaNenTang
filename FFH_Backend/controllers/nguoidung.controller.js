@@ -5,7 +5,10 @@ import service from '../services/nguoidung.service.js'
 class NguoidungController {
     constructor(service) {
         this.service = service
+        this.signup = this.signup.bind(this)
         this.login = this.login.bind(this)
+        this.updatePassword = this.updatePassword.bind(this)
+        this.updateInfo = this.updateInfo.bind(this)
         this.getAll = this.getAll.bind(this)
         this.getById = this.getById.bind(this)
         this.insert = this.insert.bind(this)
@@ -15,12 +18,50 @@ class NguoidungController {
         this.getSearch = this.getSearch.bind(this)
         this.getPaginationSearch = this.getPaginationSearch.bind(this)
     }
+    signup(req, res) {
+        const { ten_nguoi_dung, email_nguoi_dung, mat_khau_nguoi_dung } = req.body
+
+        console.log(req.body)
+
+        service.signup(ten_nguoi_dung, email_nguoi_dung, mat_khau_nguoi_dung, (result) => {
+            res.send(result)
+        })
+    }
     login(req, res) {
         const { email_nguoi_dung, mat_khau_nguoi_dung } = req.body
-
+        
         service.login(email_nguoi_dung, mat_khau_nguoi_dung, (result) => {
             res.send(result)
         }) 
+    }
+    updatePassword(req, res) {
+        const { id, currentPass, newPass } = req.body
+
+        service.updatePassword(id, currentPass, newPass, (result) => {
+            res.send(result)
+        })
+    }
+    updateInfo(req, res) {
+        const { id } = req.params
+        const {
+            ten_nguoi_dung,
+            email_nguoi_dung,
+            sdt_nguoi_dung,
+            dia_chi_nguoi_dung,
+            anh_nguoi_dung
+        } = req.body
+
+        const obj = {
+            ten_nguoi_dung,
+            email_nguoi_dung,
+            sdt_nguoi_dung,
+            dia_chi_nguoi_dung,
+            anh_nguoi_dung
+        }
+
+        service.updateInfo(id, obj, (result) => {
+            res.send(result)
+        })
     }
     getSearch(req, res) {
         const searchValue = req.query.searchValue
@@ -68,6 +109,7 @@ class NguoidungController {
     update(req, res) {
         const nguoidung = req.body
         // const id = req.params.id
+        console.log(nguoidung)
         service.update(nguoidung, (result) => {
             res.send(result)
         })

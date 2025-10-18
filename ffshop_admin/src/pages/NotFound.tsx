@@ -10,7 +10,7 @@ const NotFound = () => {
             title='404'
             subTitle='Trang bạn tìm kiếm không tồn tại hoặc đã bị xóa !'
             extra={
-                <Button type="primary" onClick={() => navigate('/admin/home')}>
+                <Button type="primary" onClick={() => navigate('/')}>
                     Quay về trang chủ
                 </Button>
             }

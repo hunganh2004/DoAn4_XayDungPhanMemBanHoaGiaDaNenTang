@@ -13,9 +13,14 @@ class HoadonbanService {
 			i.ma_nguoi_dung,
 			i.ngay_ban,
 			i.tong_tien,
+            i.ghi_chu,
+            i.trang_thai,
 			i.create_at,
 			i.update_at,
         ))
+    }
+    updateStatus(id, status, callback) {
+        this.db.execQuery('update ', this.tablename, ' set trang_thai = ? where id = ?', [status, id], callback)
     }
     getAll(callback) {
         this.db.getAll(this.tablename, this.converToHoadonban, callback)
@@ -35,14 +40,14 @@ class HoadonbanService {
         this.db.delete(this.tablename,id,callback)
     }
     getSearch(searchValue ,callback) {
-        const fields = ['id', 'ma_nguoi_dung', 'ngay_ban', 'tong_tien', 'create_at', 'update_at']
+        const fields = ['id', 'ma_nguoi_dung', 'ngay_ban', 'tong_tien', 'ghi_chu', 'trang_thai', 'create_at', 'update_at']
         this.db.getSearch(this.tablename, searchValue,fields, this.converToHoadonban, callback)
     }
-     getPaginationSearch(searchValue, pageSize, pageNumber, callback) {
-        const fields = ['id', 'ma_nguoi_dung', 'ngay_ban', 'tong_tien', 'create_at', 'update_at']
+    getPaginationSearch(searchValue, pageSize, pageNumber, callback) {
+        const fields = ['id', 'ma_nguoi_dung', 'ngay_ban', 'tong_tien', 'ghi_chu', 'trang_thai','create_at', 'update_at']
         this.db.getPaginationSearch(this.tablename, searchValue, fields, pageSize, pageNumber, this.converToHoadonban, callback)
     }
-     getPagination(pageSize, pageNumber, callback) {
+    getPagination(pageSize, pageNumber, callback) {
         this.db.getPagination(this.tablename, pageSize, pageNumber, this.converToHoadonban, callback)
     }
 }

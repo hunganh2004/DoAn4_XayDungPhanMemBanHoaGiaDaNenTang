@@ -5,6 +5,8 @@ import service from '../services/chitiethoadonban.service.js'
 class ChitiethoadonbanController {
     constructor(service) {
         this.service = service
+        this.getAllByMaHoaDonBan = this.getAllByMaHoaDonBan.bind(this)
+        this.deleteByMaHoaDonBan = this.deleteByMaHoaDonBan.bind(this)
         this.getAll = this.getAll.bind(this)
         this.getById = this.getById.bind(this)
         this.insert = this.insert.bind(this)
@@ -13,6 +15,18 @@ class ChitiethoadonbanController {
         this.getPagination = this.getPagination.bind(this)
         this.getSearch = this.getSearch.bind(this)
         this.getPaginationSearch = this.getPaginationSearch.bind(this)
+    }
+    getAllByMaHoaDonBan(req, res) {
+        const ma_hoa_don_ban = req.params.ma_hoa_don_ban
+        service.getAllByMaHoaDonBan(ma_hoa_don_ban, (result) => {
+            res.send(result)
+        })
+    }
+    deleteByMaHoaDonBan(req, res) {
+        const ma_hoa_don_ban = req.params.ma_hoa_don_ban
+        service.deleteByMaHoaDonBan(ma_hoa_don_ban, (result) => {
+            res.send(result)
+        })
     }
     getSearch(req, res) {
         const searchValue = req.query.searchValue

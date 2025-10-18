@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BulbOutlined,
     ControlOutlined,
@@ -16,7 +16,7 @@ import {
 } from '@ant-design/icons';
 import type { BreadcrumbProps, MenuProps } from 'antd';
 import { Avatar, Breadcrumb, Button, Layout, Menu, theme } from 'antd';
-import {  Routes, Route, useNavigate, useLocation, Navigate } from "react-router-dom";
+import {  Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
 // import System from './pages/System';
 import NotFound from './pages/NotFound';
@@ -25,6 +25,7 @@ import CategoryManager from './pages/CategoryManager';
 import UserManager from './pages/UserManager';
 import ImportInvoiceManager from './pages/ImportInvoiceManager';
 import ExportInvoiceManager from './pages/ExportInvoiceManager';
+import LoginPage from './pages/Login';
 import { ConfigProvider } from 'antd';
 import viVN from "antd/locale/vi_VN";
 import '@ant-design/v5-patch-for-react-19';
@@ -51,6 +52,7 @@ function getMenuItem(
 
 const getBreadcrumItems = (pathname: string): BreadcrumbItem[] => {
     const map: Record<string, string> = {
+        '/': 'Đăng nhập',
         '/admin/home': 'Trang chủ',
         '/admin/categories': 'Quản sản phẩm / Danh mục sản phẩm',
         '/admin/product-list': 'Quản lý sản phẩm / Danh sách sản phẩm',
@@ -86,6 +88,11 @@ const menuItems: MenuItem[] = [
     ]),
 ];
 
+const getUser = () => {
+        const user = localStorage.getItem('user') 
+        return user? JSON.parse(user) : null
+}
+
 interface AppProps {
     isDark: boolean
     toggleTheme: () => void
@@ -99,11 +106,19 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
         token: { colorBgContainer, borderRadiusLG, colorText },
     } = theme.useToken();
 
+    const user = getUser()
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/')
+        }
+    },[user, navigate])
+
     return (
         <ConfigProvider locale={viVN} theme={{algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm}}>
 
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider 
+        {user && <Sider 
             collapsible collapsed={collapsed} 
             onCollapse={(value) => setCollapsed(value)}
             theme={isDark? 'dark':'light'}
@@ -120,7 +135,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                 <Menu theme={isDark? 'dark':'light'} defaultSelectedKeys={['1']} mode="inline" items={menuItems} 
                     onClick={({key}) => navigate(`/admin/${key}`) }
                 />
-            </Sider>
+            </Sider>}
             <Layout>
                 <Header style={{ padding: 0, backgroundColor: colorBgContainer, paddingLeft: '10px' }} >
                     <Button 
@@ -151,7 +166,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                         }}
                     >
                         <Routes>
-                            <Route path='/' element={<Navigate to="/admin/home" />} />
+                            <Route path='/' element={<LoginPage />} />
                             <Route path="/admin/home" element={<Dashboard />} />
                             <Route path='/admin/product-list' element={<ProductManager />} />
                             <Route path='/admin/categories' element={<CategoryManager />} />

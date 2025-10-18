@@ -5,6 +5,7 @@ import service from '../services/hoadonban.service.js'
 class HoadonbanController {
     constructor(service) {
         this.service = service
+        this.updateStatus = this.updateSatus.bind(this)
         this.getAll = this.getAll.bind(this)
         this.getById = this.getById.bind(this)
         this.insert = this.insert.bind(this)
@@ -13,6 +14,14 @@ class HoadonbanController {
         this.getPagination = this.getPagination.bind(this)
         this.getSearch = this.getSearch.bind(this)
         this.getPaginationSearch = this.getPaginationSearch.bind(this)
+    }
+    updateSatus(req, res) {
+        const id = req.params.id
+        const { trang_thai} = req.body
+
+        service.updateStatus(id, trang_thai, (result) => {
+            res.send(result)
+        })
     }
     getSearch(req, res) {
         const searchValue = req.query.searchValue

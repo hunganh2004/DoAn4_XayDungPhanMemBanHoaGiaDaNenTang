@@ -9,6 +9,7 @@ router.get('/search', controller.getSearch)
 router.get('/pagination', controller.getPagination)
 router.get('/:id', controller.getById)
 router.post('/', controller.insert)
+router.put('/:id/status', controller.updateSatus)
 router.put('/', controller.update)
 router.delete('/:id', controller.delete)
 

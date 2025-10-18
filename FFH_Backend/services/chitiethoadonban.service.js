@@ -18,6 +18,12 @@ class ChitiethoadonbanService {
 			i.update_at,
         ))
     }
+    getAllByMaHoaDonBan(ma_hoa_don_ban, callback) {
+        this.db.execQuery('select * from ', this.tablename, ' where ma_hoa_don_ban = ? ', ma_hoa_don_ban, callback)
+    }
+    deleteByMaHoaDonBan(ma_hoa_don_ban, callback) {
+        this.db.execQuery('delete from ', this.tablename, ' where ma_hoa_don_ban = ? ', ma_hoa_don_ban, callback)
+    }p
     getAll(callback) {
         this.db.getAll(this.tablename, this.converToChitiethoadonban, callback)
     }

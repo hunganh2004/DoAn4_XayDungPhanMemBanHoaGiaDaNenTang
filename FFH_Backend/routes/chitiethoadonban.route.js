@@ -4,12 +4,14 @@ const router = express.Router()
 import controller from '../controllers/chitiethoadonban.controller.js'
 
 router.get('/pagination/search', controller.getPaginationSearch)
+router.get('/by-invoice/:ma_hoa_don_ban', controller.getAllByMaHoaDonBan)
 router.get('/all', controller.getAll)
 router.get('/search', controller.getSearch)
 router.get('/pagination', controller.getPagination)
 router.get('/:id', controller.getById)
 router.post('/', controller.insert)
 router.put('/', controller.update)
+router.delete('/by-invoice/:ma_hoa_don_ban', controller.deleteByMaHoaDonBan)
 router.delete('/:id', controller.delete)
 
 export default router

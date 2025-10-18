@@ -8,11 +8,11 @@ class LoaisanphamService {
         this.tablename = tablename
     }
     converToLoaisanpham(data) {
+        console.log('Danh sách trước convert: ',data)
         return data.map(i => new Loaisanpham(
 			i.id,
 			i.ten_loai_san_pham,
 			i.anh_loai_san_pham,
-			i.url_loai_san_pham,
 			i.create_at,
 			i.update_at,
         ))
@@ -35,11 +35,11 @@ class LoaisanphamService {
         this.db.delete(this.tablename,id,callback)
     }
     getSearch(searchValue ,callback) {
-        const fields = ['id', 'ten_loai_san_pham', 'anh_loai_san_pham', 'url_loai_san_pham', 'create_at', 'update_at']
+        const fields = ['id', 'ten_loai_san_pham', 'anh_loai_san_pham', 'create_at', 'update_at']
         this.db.getSearch(this.tablename, searchValue,fields, this.converToLoaisanpham, callback)
     }
      getPaginationSearch(searchValue, pageSize, pageNumber, callback) {
-        const fields = ['id', 'ten_loai_san_pham', 'anh_loai_san_pham', 'url_loai_san_pham', 'create_at', 'update_at']
+        const fields = ['id', 'ten_loai_san_pham', 'anh_loai_san_pham', 'create_at', 'update_at']
         this.db.getPaginationSearch(this.tablename, searchValue, fields, pageSize, pageNumber, this.converToLoaisanpham, callback)
     }
      getPagination(pageSize, pageNumber, callback) {

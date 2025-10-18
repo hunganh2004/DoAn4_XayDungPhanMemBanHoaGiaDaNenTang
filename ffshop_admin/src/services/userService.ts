@@ -49,3 +49,11 @@ export const updatePassword = async (userId: number, currentPassword: string, ne
     });
     return res.data;
 }
+
+export const login = async (username: string, password: string) => {
+    const res = await api.post(`nguoidung/login`, {
+        email_nguoi_dung: username,
+        mat_khau_nguoi_dung: password 
+    })
+    return res.data
+}
