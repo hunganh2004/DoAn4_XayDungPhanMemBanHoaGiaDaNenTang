@@ -12,15 +12,15 @@ const SuccessScreen = () => {
                 style={styles.image}
                 resizeMode="contain"
             />
-            <Text style={styles.title}>Order Confirmed!</Text>
+            <Text style={styles.title}>Đơn hàng đã được xác nhận!</Text>
             <Text style={styles.message}>
-                Thank you for your purchase. Your order has been placed successfully.
+                Cảm ơn bạn đã mua. Đơn hàng của bạn đã được đặt thành công.
             </Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => router.push('/(drawer)/(tabs)/home')}
             >
-                <Text style={styles.buttonText}>Back to Home</Text>
+                <Text style={styles.buttonText}>Trờ về trang chủ</Text>
             </TouchableOpacity>
         </View>
     );

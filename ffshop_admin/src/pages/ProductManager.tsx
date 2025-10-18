@@ -163,8 +163,8 @@ const ProductManager = () => {
             const updateList = await getAllProducts()
             setData(updateList)
             setIsModalOpen(false)
-        } catch (err) { 
-            console.error('Lỗi khi thêm/sửa sản phẩm: ' + err)
+        } catch (err: any) { 
+            console.error('Lỗi khi thêm/sửa sản phẩm: ' + (err.message || JSON.stringify(err)))
         } finally {
             setLoading(false)
             setIsModalOpen(false)

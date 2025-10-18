@@ -18,6 +18,7 @@ const RegisterScreen = () => {
                 ten_nguoi_dung: tenNguoiDung,
                 email_nguoi_dung: email,
                 mat_khau_nguoi_dung: password,
+                vai_tro: 'khách hàng'
             }),
         });
 

@@ -42,7 +42,7 @@ class NguoidungService {
     }
     signup(ten_nguoi_dung,email, mat_khau, callback) {
         const sql = `insert into ${this.tablename} 
-        (ten_nguoi_dung, email_nguoi_dung, mat_khau_nguoi_dung, anh_nguoi_dung) values (?, ?, ?, '/')`
+        (ten_nguoi_dung, email_nguoi_dung, mat_khau_nguoi_dung, anh_nguoi_dung, vai_tro) values (?, ?, ?, '/','khách hàng')`
         this.db.execQuery(sql, '', '', [ten_nguoi_dung, email, mat_khau], (err, result) => {
             
             if (err) {

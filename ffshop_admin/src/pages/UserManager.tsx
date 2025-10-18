@@ -258,7 +258,7 @@ const UserManager = () => {
                 <Form.Item name='dia_chi_nguoi_dung' label='Địa chỉ' rules={[{ required: true, message: 'Vui lòng nhập địa chỉ'}]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name='vai_tro' label='Vai trò' rules={[{ required: true, message: 'Vui lòng nhập vai trò'}]} hidden>
+                <Form.Item name='vai_tro' label='Vai trò' hidden>
                     <Input />
                 </Form.Item>
                 <Form.Item name="token" label="Token" hidden>

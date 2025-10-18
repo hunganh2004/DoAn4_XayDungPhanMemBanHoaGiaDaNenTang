@@ -25,10 +25,12 @@ import CategoryManager from './pages/CategoryManager';
 import UserManager from './pages/UserManager';
 import ImportInvoiceManager from './pages/ImportInvoiceManager';
 import ExportInvoiceManager from './pages/ExportInvoiceManager';
+import Logout from './pages/Logout';
 import LoginPage from './pages/Login';
 import { ConfigProvider } from 'antd';
 import viVN from "antd/locale/vi_VN";
 import '@ant-design/v5-patch-for-react-19';
+import { host } from './services/host';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -126,7 +128,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
             >
                 <Avatar 
                     size={collapsed? 40 :100}
-                    src="http://localhost:9604/uploads/image-1757748160166.jpg" 
+                    src={host + user.anh_nguoi_dung}
                     style={{margin: '30px auto', display:'block'}}
                     />
                 {!collapsed && <div style={{ textAlign: 'center', color: colorText,  margin: '20px auto' }}>
@@ -175,7 +177,7 @@ const App: React.FC<AppProps> = ({isDark, toggleTheme}) => {
                             <Route path='/admin/export-invoice' element={<ExportInvoiceManager />} />
                             {/* <Route path='/admin/profile' element={<Profile />} /> */}
                             {/* <Route path='/admin/system' element={<System />} /> */}
-                            {/* <Route path='/admin/logout' element={<Logout />} /> */}
+                            <Route path='/admin/logout' element={(<Logout />)} />
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </div>
